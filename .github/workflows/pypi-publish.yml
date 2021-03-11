@@ -59,6 +59,7 @@ jobs:
           twine check ./wheelhouse/*.whl
 
       - name: Build sdist
+        if: runner.os == 'Linux'
         run: |
           python setup.py sdist
           twine check ./dist/*.tar.gz
