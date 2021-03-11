@@ -12,7 +12,7 @@ on:
 
 env:
   CIBW_ARCHS_LINUX: auto aarch64
-  CIBW_BUILD: cp3*
+  CIBW_SKIP: "cp27-win* pp*"
   CIBW_BEFORE_ALL_LINUX: "yum -y update && yum install -y libffi-devel"
   
 jobs:
