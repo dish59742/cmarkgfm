@@ -39,7 +39,11 @@ jobs:
 
       - name: Install build deps
         run: |
-          python -m pip --disable-pip-version-check install cibuildwheel==1.6.4 twine==3.2.0
+          python -m pip --disable-pip-version-check install --upgrade cibuildwheel twine==3.2.0
+          
+      - uses: docker/setup-qemu-action@v1
+        if: runner.os == 'Linux'
+        name: Set up QEMU
 
       # - name: Install Compiler for Python 2.7 on Windows
       #   if: runner.os == 'Windows'
@@ -48,12 +52,14 @@ jobs:
       #     python -m pip --disable-pip-version-check install --no-cache-dir --pre --index https://pypi.anaconda.org/carlkl/simple "mingwpy; python_version < '3.5'"
 
       - name: Build wheels
+        if: runner.os == 'Linux'
         run: |
           python -m cibuildwheel --output-dir wheelhouse
           twine check ./wheelhouse/*.whl
+        env:
+         CIBW_ARCHS_LINUX: auto aarch64
 
       - name: Build sdist
-        if: runner.os == 'Linux'
         run: |
           python setup.py sdist
           twine check ./dist/*.tar.gz
