@@ -43,7 +43,7 @@ jobs:
           python -m pip --disable-pip-version-check install --upgrade cibuildwheel twine==3.2.0
           
       - uses: docker/setup-qemu-action@v1
-        if: runner.os == 'Linux'
+        if: matrix.os == 'ubuntu-18.04'
         name: Set up QEMU
 
       # - name: Install Compiler for Python 2.7 on Windows
